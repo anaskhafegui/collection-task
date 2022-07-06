@@ -79,10 +79,11 @@ Route::get('/p2', function () {
 
 $groupedByValue = $scores->sortByDesc('score')->groupBy('score')->collapse();
 
-$hashMap=collect([]);
+
+$hashMap = $groupedByValue->pluck('score');
 
 $groupedByValue=$groupedByValue->map(function ($value, $key) use ($hashMap) { 
-    $hashMap->push($value['score']);
+
     return ["Team"=>$value['team'],"Score" => $value['score'], "Rank" =>$hashMap->search($value['score'])+1];
 });
 
